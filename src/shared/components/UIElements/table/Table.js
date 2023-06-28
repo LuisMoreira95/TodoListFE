@@ -1,57 +1,58 @@
-import React from 'react';
+import React from "react";
 
-import {BsFillTrashFill, BsFillPencilFill} from 'react-icons/bs';
+import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 
-import './Table.css'
+import "./Table.css";
 
-export const Table = () => {
+export const Table = (props) => {
+  console.log("Props --> ", props);
   return (
-    <div className='table-wrapper'>
-        <table className='table'>
-            <thead>
-                <tr>
-                    <th>Name</th>                    
-                    <th className='expand'>Description</th>                    
-                    <th>Category</th>                    
-                    <th>Actions</th>                    
+    <div className="table-wrapper">
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th className="expand">Description</th>
+            <th>Category</th>
+            <th>Done</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.Data &&
+            props.Data.map((entry) => {
+              return (
+                <tr key={entry.id}>
+                  <td>{entry.name}</td>
+                  <td>{entry.description}</td>
+                  <td>{entry.category.name}</td>
+                  <td>{entry.done}</td>
+                  <td>
+                    <span className="actions">
+                      <BsFillTrashFill
+                        cursor={"pointer"}
+                        onClick={() => props.Remove(entry.id)}
+                        className="delete-btn"
+                      />
+                      <BsFillPencilFill
+                        cursor={"pointer"}
+                        onClick={() =>
+                          props.Edit({
+                            todoId: entry.id,
+                            name: entry.name,
+                            description: entry.description,
+                            categoryId: entry.categoryId,
+                            done: entry.done,
+                          })
+                        }
+                      />
+                    </span>
+                  </td>
                 </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Dentes</td>                    
-                    <td>Escovar os dentes</td>                    
-                    <td>Pessoal</td>
-                    <td>
-                        <span className='actions'>
-                            <BsFillTrashFill className='delete-btn'/>
-                            <BsFillPencilFill/>
-                        </span>
-                    </td>                    
-                </tr>
-                <tr>
-                    <td>Médico</td>                    
-                    <td>Ir ao Hospital Lusiadas</td>                    
-                    <td>Saúde</td>
-                    <td>
-                        <span className='actions'>
-                            <BsFillTrashFill className='delete-btn'/>
-                            <BsFillPencilFill/>
-                        </span>
-                    </td>                    
-                </tr>
-                <tr>
-                    <td>Patuças</td>                    
-                    <td>Levar ao Veterinário</td>                    
-                    <td>Pets</td>
-                    <td>
-                        <span className='actions'>
-                            <BsFillTrashFill className='delete-btn'/>
-                            <BsFillPencilFill/>
-                        </span>
-                    </td>                    
-                </tr>
-            </tbody>
-        </table>
+              );
+            })}
+        </tbody>
+      </table>
     </div>
-  )
-}
+  );
+};

@@ -8,7 +8,6 @@ import {
 
 import Home from "./pages/home/Home";
 import TodoListPage from "./pages/todoListPage/TodoListPage";
-import DeletedTodosPage from "./pages/deletedTodosPage/deletedTodosPage";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 
 import "./App.css";
@@ -25,9 +24,6 @@ const App = () => {
             </Route>
             <Route path="/todos/list" exact>
               <TodoListPage />
-            </Route>
-            <Route path="/todos/deleted" exact>
-              <DeletedTodosPage />
             </Route>
             <Redirect to="/" />
           </Switch>
