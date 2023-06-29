@@ -1,4 +1,7 @@
-.card.home-card {
+.btn-todoList {
+  margin-left: 48%;
+}
+.card.no-record-card {
   width: 50em;
   max-width: 80%;
   margin: auto;

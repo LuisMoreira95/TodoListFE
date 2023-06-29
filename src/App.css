@@ -4,9 +4,10 @@
 }
 
 .btn {
+  background-color: #071c39;
+  font-weight: 600;
   margin-top: 1rem;
   border: none;
-  background-color: #1d4ed8;
   color: #fff;
   padding: 0.5rem 1rem;
   border-radius: 10px;

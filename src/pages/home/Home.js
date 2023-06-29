@@ -16,8 +16,8 @@ const Home = () => {
           <p>
             Welcome to my Todo List project challenge! A project built with a
             backend using ASP.NET Core Web API and SQL Database. Complemented by
-            a simple frontend web app built with React. Clik on this card to go
-            to your Todo List.
+            a simple frontend web app built with React. Click on this card to go
+            to your Todo List, or use the menu.
           </p>
         </Card>
       </Link>

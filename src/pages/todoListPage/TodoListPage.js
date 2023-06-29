@@ -3,8 +3,11 @@ import { Table } from "../../shared/components/UIElements/table/Table";
 import Modal from "../../shared/components/UIElements/Modal/Modal";
 import omit from "lodash/omit";
 
+import "./TodoListPage.css";
+import Card from "../../shared/components/UIElements/card/Card";
+
 const TodoListPage = () => {
-  const [todos, setTodos] = useState();
+  const [todos, setTodos] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [editTodo, setEditTodo] = useState({});
 
@@ -40,6 +43,8 @@ const TodoListPage = () => {
   };
 
   const createOrUpdateTodo = async (todo) => {
+    console.log("teste", todo); //Lm
+
     try {
       await fetch(
         `https://localhost:7082/api/Todos/${todo.todoId ? todo.todoId : ""}`,
@@ -68,18 +73,30 @@ const TodoListPage = () => {
     setModalOpen(true);
   };
 
+  console.log(todos);
+
   return (
     <React.Fragment>
-      <Table Data={todos} Remove={handleRemoveTodo} Edit={handleEditTodo} />
+      {todos.length === 0 && (
+        <Card className="no-record-card">
+          <p>No records found!</p>
+        </Card>
+      )}
+      {todos.length > 0 && (
+        <Table Data={todos} Remove={handleRemoveTodo} Edit={handleEditTodo} />
+      )}
       {modalOpen && (
         <Modal
           show={modalOpen}
-          onCancel={() => setModalOpen(false)}
+          onCancel={() => {
+            setModalOpen(false);
+            setEditTodo({});
+          }}
           CreateOrUpdate={handleCreateOrUpdateTodo}
           EditTodo={editTodo}
         />
       )}
-      <button className="btn" onClick={() => setModalOpen(true)}>
+      <button className="btn btn-todoList" onClick={() => setModalOpen(true)}>
         Add
       </button>
     </React.Fragment>

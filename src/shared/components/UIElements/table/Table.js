@@ -4,8 +4,7 @@ import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 
 import "./Table.css";
 
-export const Table = (props) => {
-  console.log("Props --> ", props);
+export const Table = ({ Data, Remove, Edit }) => {
   return (
     <div className="table-wrapper">
       <table className="table">
@@ -19,25 +18,25 @@ export const Table = (props) => {
           </tr>
         </thead>
         <tbody>
-          {props.Data &&
-            props.Data.map((entry) => {
+          {Data &&
+            Data.map((entry) => {
               return (
                 <tr key={entry.id}>
                   <td>{entry.name}</td>
                   <td>{entry.description}</td>
                   <td>{entry.category.name}</td>
-                  <td>{entry.done}</td>
+                  <td>{entry.done ? "YES" : "NO"}</td>
                   <td>
                     <span className="actions">
                       <BsFillTrashFill
                         cursor={"pointer"}
-                        onClick={() => props.Remove(entry.id)}
+                        onClick={() => Remove(entry.id)}
                         className="delete-btn"
                       />
                       <BsFillPencilFill
                         cursor={"pointer"}
                         onClick={() =>
-                          props.Edit({
+                          Edit({
                             todoId: entry.id,
                             name: entry.name,
                             description: entry.description,
