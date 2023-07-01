@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# TODO LIST WEB APP
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Simple UI for a TODO LIST APP, built with React, complemented by a Backend in C# and an SQL Database.
+The Backend can be found on my GitHub profile.
+Clone the Repository and run "npm start" to check it out.
 
 ## Available Scripts
 

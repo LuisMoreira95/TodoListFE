@@ -2,9 +2,9 @@ import React from "react";
 
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 
-import "./Table.css";
+import "./TodoTable.css";
 
-export const Table = ({ Data, Remove, Edit }) => {
+const TodoTable = ({ Data, Remove, Edit }) => {
   return (
     <div className="table-wrapper">
       <table className="table">
@@ -55,3 +55,5 @@ export const Table = ({ Data, Remove, Edit }) => {
     </div>
   );
 };
+
+export default TodoTable;
