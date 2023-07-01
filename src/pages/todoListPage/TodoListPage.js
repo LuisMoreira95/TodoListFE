@@ -5,20 +5,24 @@ import omit from "lodash/omit";
 
 import "./TodoListPage.css";
 import Card from "../../shared/components/UIElements/card/Card";
+import LoadingSpinner from "../../shared/components/UIElements/loadingSpinner/LoadingSpinner";
 
 const TodoListPage = () => {
   const [todos, setTodos] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [editTodo, setEditTodo] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   // Every time this component mounts this function is called
   useEffect(() => {
     fetchTodos();
+    setIsLoading(false);
   }, []);
 
   // Fetch a list of todos
   const fetchTodos = async () => {
     try {
+      setIsLoading(true);
       const result = await fetch(
         "https://localhost:7082/api/Todos?pageNumber=1&pageSize=1000"
       );
@@ -34,9 +38,13 @@ const TodoListPage = () => {
   // Removes a todo and then fetches the updated list of todos
   const removeTodo = async (id) => {
     try {
+      setIsLoading(true);
       await fetch(`https://localhost:7082/api/Todos/${id}`, {
         method: "DELETE",
-      }).then(() => fetchTodos());
+      }).then(() => {
+        fetchTodos();
+        setIsLoading(false);
+      });
     } catch (error) {
       console.log("Error Remove Todo ->", error);
     }
@@ -48,6 +56,7 @@ const TodoListPage = () => {
   // Get the updated todo list
   const createOrUpdateTodo = async (todo) => {
     try {
+      setIsLoading(true);
       await fetch(
         `https://localhost:7082/api/Todos/${todo.todoId ? todo.todoId : ""}`,
         {
@@ -61,6 +70,7 @@ const TodoListPage = () => {
         setModalOpen(false);
         setEditTodo({});
         fetchTodos();
+        setIsLoading(false);
       });
     } catch (error) {
       console.log("Error Create or Update Todo ->", error);
@@ -88,6 +98,7 @@ const TodoListPage = () => {
 
   return (
     <React.Fragment>
+      {isLoading && <LoadingSpinner asOverlay />}
       {todos.length === 0 && (
         <Card className="no-record-card">
           <p>No records found!</p>
