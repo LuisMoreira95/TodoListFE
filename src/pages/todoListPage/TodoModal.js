@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Backdrop from "../backdrop/Backdrop";
+import Backdrop from "../../shared/components/UIElements/backdrop/Backdrop";
 
-import "./Modal.css";
+import "./TodoModal.css";
 
-const Modal = ({ EditTodo, show, onCancel, CreateOrUpdate }) => {
+const TodoModal = ({ EditTodo, Show, OnCancel, CreateOrUpdate }) => {
   const [name, setName] = useState(EditTodo?.name || "");
   const [description, setDescription] = useState(EditTodo?.description || "");
   const [done, setDone] = useState(EditTodo?.done === true ? "Y" : "N");
@@ -11,13 +11,11 @@ const Modal = ({ EditTodo, show, onCancel, CreateOrUpdate }) => {
     EditTodo?.categoryId || "6b55a90f-ea79-4e85-accf-540be8f2e2a0"
   );
 
-  // LM
   return (
     <React.Fragment>
       <div className="modal-container">
-        {show && <Backdrop onClick={onCancel} />}
+        {Show && <Backdrop OnClick={OnCancel} />}
         <div className="modal">
-          Modal
           <div className="form-group">
             <label htmlFor="name">Name</label>
             <input
@@ -93,4 +91,4 @@ const Modal = ({ EditTodo, show, onCancel, CreateOrUpdate }) => {
   );
 };
 
-export default Modal;
+export default TodoModal;

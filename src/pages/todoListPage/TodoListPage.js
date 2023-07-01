@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Table } from "../../shared/components/UIElements/table/Table";
-import Modal from "../../shared/components/UIElements/Modal/Modal";
+import TodoTable from "./TodoTable";
+import TodoModal from "./TodoModal";
 import omit from "lodash/omit";
 
 import "./TodoListPage.css";
@@ -11,6 +11,12 @@ const TodoListPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editTodo, setEditTodo] = useState({});
 
+  // Every time this component mounts this function is called
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
+  // Fetch a list of todos
   const fetchTodos = async () => {
     try {
       const result = await fetch(
@@ -25,10 +31,7 @@ const TodoListPage = () => {
     }
   };
 
-  useEffect(() => {
-    fetchTodos();
-  }, []);
-
+  // Removes a todo and then fetches the updated list of todos
   const removeTodo = async (id) => {
     try {
       await fetch(`https://localhost:7082/api/Todos/${id}`, {
@@ -38,13 +41,12 @@ const TodoListPage = () => {
       console.log("Error Remove Todo ->", error);
     }
   };
-  const handleRemoveTodo = (id) => {
-    removeTodo(id);
-  };
 
+  // Updates a todo if an id parameter is available
+  // Otherwise creates it
+  // Then: closes the modal, set the todo to empty "Because the todo populates edit modal" and
+  // Get the updated todo list
   const createOrUpdateTodo = async (todo) => {
-    console.log("teste", todo); //Lm
-
     try {
       await fetch(
         `https://localhost:7082/api/Todos/${todo.todoId ? todo.todoId : ""}`,
@@ -61,19 +63,28 @@ const TodoListPage = () => {
         fetchTodos();
       });
     } catch (error) {
-      console.log("Error Create Todo ->", error);
+      console.log("Error Create or Update Todo ->", error);
     }
   };
+
+  // Callback that sends the id to remove from table to todoList Page
+  const handleRemoveTodo = (id) => {
+    removeTodo(id);
+  };
+
+  // Callback that sends the todo to edit or create from Modal to todoList Page
   const handleCreateOrUpdateTodo = (todo) => {
     createOrUpdateTodo(todo);
   };
 
+  // Callback that sends the todo to edit from Table to todoList Page
   const handleEditTodo = (editTodo) => {
     setEditTodo(editTodo);
     setModalOpen(true);
   };
 
-  console.log(todos);
+  // CREATE: Modal --> TodoListPage
+  // EDIT: Table --> TodoListPage --> Modal --> TodoListPage
 
   return (
     <React.Fragment>
@@ -83,12 +94,16 @@ const TodoListPage = () => {
         </Card>
       )}
       {todos.length > 0 && (
-        <Table Data={todos} Remove={handleRemoveTodo} Edit={handleEditTodo} />
+        <TodoTable
+          Data={todos}
+          Remove={handleRemoveTodo}
+          Edit={handleEditTodo}
+        />
       )}
       {modalOpen && (
-        <Modal
-          show={modalOpen}
-          onCancel={() => {
+        <TodoModal
+          Show={modalOpen}
+          OnCancel={() => {
             setModalOpen(false);
             setEditTodo({});
           }}
